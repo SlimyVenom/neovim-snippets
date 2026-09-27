@@ -1,0 +1,93 @@
+-- math.lua
+
+local ls = require 'luasnip'
+
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+
+return {
+  -- Mod Power function:
+  s('mod', {
+    t {
+      '// Mod Power Function',
+      'll mpow(ll a, ll b, ll mod = MOD){',
+      '    ll res = 1;',
+      '    a %= mod;',
+      '',
+      '    while(b){',
+      '        if(b & 1) res = res * a % mod;',
+      '        a = a * a % mod;',
+      '        b >>= 1;',
+      '    }',
+      '',
+      '    return res;',
+      '}',
+      '',
+      '// Fermats Modular Inverse',
+      'll inv(ll x){',
+      '    return mpow(x, MOD - 2);',
+      '}',
+      '',
+      '// Factorials modulo MOD',
+      'vll fact, ifact;',
+      '',
+      'void mfact(ll n){',
+      '    fact.resize(n + 1);',
+      '    ifact.resize(n + 1);',
+      '',
+      '    fact[0] = 1;',
+      '',
+      '    for(ll i = 1; i <= n; i++)',
+      '        fact[i] = fact[i - 1] * i % MOD;',
+      '',
+      '    ifact[n] = inv(fact[n]);',
+      '',
+      '    for(ll i = n; i > 0; i--)',
+      '        ifact[i - 1] = ifact[i] * i % MOD;',
+      '}',
+      '',
+      'll nCr(ll n, ll r){',
+      '    if(r < 0 || r > n)',
+      '        return 0;',
+      '',
+      '    return fact[n] * ifact[r] % MOD * ifact[n - r] % MOD;',
+      '}',
+    },
+  }),
+
+  -- Sieve of Eratosthenes
+  s('spf', {
+    t {
+      '// Sieve of Eratosthenes',
+      'vll spf;',
+      '',
+      'void sieve(ll n){',
+      '    spf.resize(n + 1);',
+      '',
+      '    for(ll i = 0; i <= n; i++)',
+      '        spf[i] = i;',
+      '',
+      '    for(ll i = 2; i * i <= n; i++){',
+      '        if(spf[i] == i){',
+      '            for(ll j = i * i; j <= n; j += i){',
+      '                if(spf[j] == j)',
+      '                    spf[j] = i;',
+      '            }',
+      '        }',
+      '    }',
+      '}',
+      '',
+      'vll factorize(ll n){',
+      '    vll factors;',
+      '',
+      '    while(n > 1){',
+      '        factors.pb(spf[n]);',
+      '        n /= spf[n];',
+      '    }',
+      '',
+      '    return factors;',
+      '}',
+    },
+  }),
+}
